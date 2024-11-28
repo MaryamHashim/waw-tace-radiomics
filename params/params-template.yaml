@@ -1,0 +1,24 @@
+imageType:
+    Original: {}
+    LoG: {'sigma' : [1.0, 3.0]}
+    Wavelet: {}
+    Square: {}
+    SquareRoot: {}
+    Logarithm: {}
+    Exponential: {}
+    Gradient: {}
+
+featureClass:
+    firstorder:
+    shape:
+    glcm:
+    glrlm:
+    glszm:
+    gldm:
+    ngtdm:
+
+setting:
+    binWidth: 50
+    resampledPixelSpacing: []
+    voxelArrayShift: 2000
+    force2D: true
