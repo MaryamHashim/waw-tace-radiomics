@@ -41,15 +41,18 @@ class FeatureExtractors:
     def process_masks(
         self, masks: list[str], reference_image: sitk.Image
     ) -> sitk.Image:
-        mask = sum(
-            [
-                sitk.Cast(
-                    self.resample_to_target(mask, reference_image),
-                    sitk.sitkUInt32,
-                )
-                for mask in masks
-            ]
-        ) > 0.5
+        mask = (
+            sum(
+                [
+                    sitk.Cast(
+                        self.resample_to_target(mask, reference_image),
+                        sitk.sitkUInt32,
+                    )
+                    for mask in masks
+                ]
+            )
+            > 0.5
+        )
         mask = sitk.Cast(mask, sitk.sitkUInt32)
         return mask
 
@@ -64,6 +67,8 @@ class FeatureExtractors:
             if idx in self[k]:
                 image = sitk.ReadImage(self[k][idx]["path"])
                 curr_mask = self.process_masks(masks, image)
+                if sitk.GetArrayFromImage(curr_mask).sum() == 0:
+                    break
                 features = self.feature_extractors[idx].execute(
                     image, curr_mask
                 )
