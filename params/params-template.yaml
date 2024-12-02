@@ -1,24 +1,43 @@
 imageType:
     Original: {}
-    LoG: {'sigma' : [1.0, 3.0]}
+    LoG: {'sigma' : [1.0, 3.0, 5.0]}
     Wavelet: {}
-    Square: {}
-    SquareRoot: {}
-    Logarithm: {}
-    Exponential: {}
     Gradient: {}
 
 featureClass:
     firstorder:
     shape:
-    glcm:
+    glcm:  # Disable SumAverage by specifying all other GLCM features available
+        - 'Autocorrelation'
+        - 'JointAverage'
+        - 'ClusterProminence'
+        - 'ClusterShade'
+        - 'ClusterTendency'
+        - 'Contrast'
+        - 'Correlation'
+        - 'DifferenceAverage'
+        - 'DifferenceEntropy'
+        - 'DifferenceVariance'
+        - 'JointEnergy'
+        - 'JointEntropy'
+        - 'Imc1'
+        - 'Imc2'
+        - 'Idm'
+        - 'Idmn'
+        - 'Id'
+        - 'Idn'
+        - 'InverseVariance'
+        - 'MaximumProbability'
+        - 'SumEntropy'
+        - 'SumSquares'
     glrlm:
     glszm:
     gldm:
-    ngtdm:
 
 setting:
-    binWidth: 50
-    resampledPixelSpacing: []
+    binWidth: 25
+    resampledPixelSpacing: 
     voxelArrayShift: 2000
+    padDistance: 10
     force2D: true
+    padDistance: 10
