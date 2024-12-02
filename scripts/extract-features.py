@@ -41,19 +41,16 @@ class FeatureExtractors:
     def process_masks(
         self, masks: list[str], reference_image: sitk.Image
     ) -> sitk.Image:
-        mask = (
-            sum(
-                [
-                    sitk.Cast(
-                        self.resample_to_target(mask, reference_image),
-                        sitk.sitkUInt32,
-                    )
-                    for mask in masks
-                ]
-            )
-            > 0.5
+        mask = sum(
+            [
+                sitk.Cast(
+                    self.resample_to_target(mask, reference_image),
+                    sitk.sitkUInt32,
+                )
+                for mask in masks
+            ]
         )
-        mask = sitk.Cast(mask, sitk.sitkUInt32)
+        mask = sitk.Cast(mask > 0.5, sitk.sitkUInt32)
         return mask
 
     def __call__(self, k: str):
@@ -82,6 +79,7 @@ class FeatureExtractors:
                 }
                 features["identifier"] = k
                 features["phase"] = idx
+                features_curr.append(features)
         with open(out_path, "w") as o:
             json.dump(features_curr, o)
 
