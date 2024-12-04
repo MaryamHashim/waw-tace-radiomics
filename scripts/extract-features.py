@@ -15,10 +15,8 @@ class FeatureExtractors:
     def __init__(self, dataset: dict):
         self.dataset = dataset
         self.feature_extractors = {
-            "0": RadiomicsFeatureExtractor(),
             "1": RadiomicsFeatureExtractor(),
             "2": RadiomicsFeatureExtractor(),
-            "3": RadiomicsFeatureExtractor(),
         }
 
         for k in self.feature_extractors:
@@ -32,66 +30,76 @@ class FeatureExtractors:
             yield k
 
     def resample_to_target(
-        self, image: sitk.Image, target_image: sitk.Image
+        self, image: sitk.Image, reference_image: sitk.Image
     ) -> sitk.Image:
         return sitk.Resample(
-            image, target_image, sitk.Transform(), sitk.sitkNearestNeighbor, 0.0
+            image,
+            reference_image,
+            sitk.Transform(),
+            sitk.sitkNearestNeighbor,
+            0,
         )
 
     def process_masks(
         self, masks: list[str], reference_image: sitk.Image
     ) -> sitk.Image:
-        mask = sum(
-            [
-                sitk.Cast(
-                    self.resample_to_target(mask, reference_image),
-                    sitk.sitkUInt32,
-                )
-                for mask in masks
-            ]
-        )
-        mask = sitk.Cast(mask > 0.5, sitk.sitkUInt32)
-        return mask
+        return [
+            sitk.Cast(
+                self.resample_to_target(mask, reference_image) > 0.5,
+                sitk.sitkUInt32,
+            )
+            for mask in masks
+        ]
 
     def __call__(self, k: str):
-        out_path = f"{feature_dir}/{key}.json"
+        out_path = f"{feature_dir}/{k}.json"
         if os.path.exists(out_path):
-            print(f"{out_path} already present, skipping")
-            return
+            return k, "already present"
         masks = [sitk.ReadImage(mask) for mask in self[k]["mask"]]
         features_curr = []
         for idx in self.feature_extractors:
             if idx in self[k]:
                 image = sitk.ReadImage(self[k][idx]["path"])
-                curr_mask = self.process_masks(masks, image)
-                if sitk.GetArrayFromImage(curr_mask).sum() == 0:
-                    break
-                features = self.feature_extractors[idx].execute(
-                    image, curr_mask
-                )
-                features = {
-                    k: (
-                        features[k].tolist()
-                        if isinstance(features[k], np.ndarray)
-                        else features[k]
-                    )
-                    for k in features
-                }
-                features["identifier"] = k
-                features["phase"] = idx
-                features_curr.append(features)
+                curr_masks = self.process_masks(masks, image)
+                mask_idx = 0
+                for mask in curr_masks:
+                    if sitk.GetArrayFromImage(mask).sum() < 10:
+                        break
+                    features = self.feature_extractors[idx].execute(image, mask)
+                    features = {
+                        k: (
+                            features[k].tolist()
+                            if isinstance(features[k], np.ndarray)
+                            else features[k]
+                        )
+                        for k in features
+                    }
+                    features["identifier"] = k
+                    features["phase"] = idx
+                    features["mask_idx"] = mask_idx
+                    features_curr.append(features)
+                    mask_idx += 1
         with open(out_path, "w") as o:
             json.dump(features_curr, o)
+        return k, "success"
 
     def __len__(self):
         return len(self.dataset)
 
 
 if __name__ == "__main__":
+    from multiprocessing import Pool
+
+    n_workers = 8
+
     with open("dataset.json") as o:
         dataset = json.load(o)
 
     feature_extractors = FeatureExtractors(dataset)
 
-    for key in tqdm(feature_extractors):
-        feature_extractors(key)
+    with Pool(n_workers) as p:
+        all_keys = list(feature_extractors.dataset.keys())
+        iterator = p.imap_unordered(feature_extractors, all_keys, chunksize=1)
+        with tqdm(iterator, total=len(feature_extractors)) as pbar:
+            for key, message in pbar:
+                pbar.set_description(f"Current patient: {key}")
