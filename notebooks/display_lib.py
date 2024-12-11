@@ -86,7 +86,7 @@ class VolumeDisplay:
             s[:, :, 0] = np.where(self.mask[slice_idx] > 0.5, 1, s[:, :, 0])
             # s[:,:, 1] = np.where(self.mask[slice_idx] > 0.5, 1, s[:,:, 1])
             # s[:,:, 2] = np.where(self.mask[slice_idx] > 0.5, 1, s[:,:, 2])
-        self.ax.imshow(s)
+        self.ax.imshow(s[::-1, :])
         self.fig.canvas.draw()
         display(self.fig)
 
