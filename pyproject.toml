@@ -1,0 +1,17 @@
+[project]
+name = "extract-features-waw-tace"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy==2.2.0",
+    "pandas==2.2.3",
+    "pyradiomics",
+    "pyyaml==6.0.2",
+    "simpleitk==2.4.0",
+    "tqdm==4.66.5",
+]
+
+[tool.uv.sources]
+pyradiomics = { git = "https://github.com/AIM-Harvard/pyradiomics" }
