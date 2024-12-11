@@ -1,6 +1,8 @@
 import os
 
+DATA_DIR = "data"
 DATASET_PATH = "/big_disk/Datasets/WAW-TACE/"
+FEATURE_DIR = "features"
 
 
 def get_params_path(idx: str | int) -> tuple[str, str]:

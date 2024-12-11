@@ -2,8 +2,7 @@ import os
 import json
 import pandas as pd
 from glob import glob
-
-DATA_DIR = "data"
+from lib import DATA_DIR
 
 
 def read_json(json_path: str) -> list | dict:

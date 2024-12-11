@@ -5,9 +5,8 @@ import SimpleITK as sitk
 from radiomics.featureextractor import RadiomicsFeatureExtractor
 from radiomics import setVerbosity
 from tqdm import tqdm
+from lib import FEATURE_DIR
 
-feature_dir = "features"
-os.makedirs(feature_dir, exist_ok=True)
 setVerbosity(60)
 
 
@@ -52,7 +51,7 @@ class FeatureExtractors:
         ]
 
     def __call__(self, k: str):
-        out_path = f"{feature_dir}/{k}.json"
+        out_path = f"{FEATURE_DIR}/{k}.json"
         if os.path.exists(out_path):
             return k, "already present"
         masks = [sitk.ReadImage(mask) for mask in self[k]["mask"]]
@@ -89,6 +88,8 @@ class FeatureExtractors:
 
 if __name__ == "__main__":
     from multiprocessing import Pool
+
+    os.makedirs(FEATURE_DIR, exist_ok=True)
 
     n_workers = 8
 
