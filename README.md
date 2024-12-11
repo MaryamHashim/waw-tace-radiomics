@@ -1,6 +1,8 @@
 # Tutorial on radiomic feature extraction using WAW-TACE data
 
-# Command-line execution
+This was performed in the context of the [ESGAR AI Online Workshop: How to develop a Radiomics Signature](https://esgar.org/workshops/workshop-detail-view/virtual-ai-workshop-how-to-develop-a-radiomics-signature).
+
+## Command-line execution
 
 This is a short tutorial on radiomic feature extraction and machine-learning model training using the [WAW-TACE dataset](https://www.google.com/search?q=waw-tace&oq=WAW-tace&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGD0yBggCEEUYOzIGCAMQRRg8MgYIBBBFGD3SAQc4OTNqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8). This dataset contains hepatocellular carcinoma patients eligible for transarterial chemoembolization therapy, and the task is predicting the progression of each patient.
 
