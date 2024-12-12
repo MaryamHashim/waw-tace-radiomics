@@ -1,6 +1,0 @@
-numpy==2.2.0
-pandas==2.2.3
-git+https://github.com/AIM-Harvard/pyradiomics
-PyYAML==6.0.2
-SimpleITK==2.4.0
-tqdm==4.66.5
