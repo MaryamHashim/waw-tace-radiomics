@@ -1,7 +1,7 @@
 import os
 
 DATA_DIR = "data"
-DATASET_PATH = "/big_disk/Datasets/WAW-TACE/"
+DATASET_PATH = "/content/drive/My Drive/Colab Notebooks/WAW-TACE-dataset/"
 FEATURE_DIR = "features"
 
 
