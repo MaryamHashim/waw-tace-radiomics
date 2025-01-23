@@ -1,24 +1,45 @@
-# Tutorial on radiomic feature extraction using WAW-TACE data
+# How to Develop Your First Radiomics Signature on CT Images
 
-This was performed in the context of the [ESGAR AI Online Workshop: How to develop a Radiomics Signature](https://esgar.org/workshops/workshop-detail-view/virtual-ai-workshop-how-to-develop-a-radiomics-signature).
+This script has been forked from (https://github.com/CCIG-Champalimaud/waw-tace-radiomics/tree/master?tab=readme-ov-file) and has been modified to fit radiologist residents for the purpose of learning and training.
 
-## Command-line execution
+## Citation
 
-This is a short tutorial on radiomic feature extraction and machine-learning model training using the [WAW-TACE dataset](https://www.google.com/search?q=waw-tace&oq=WAW-tace&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGD0yBggCEEUYOzIGCAMQRRg8MgYIBBBFGD3SAQc4OTNqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8). This dataset contains hepatocellular carcinoma patients eligible for transarterial chemoembolization therapy, and the task is predicting the progression of each patient.
+Code: If you use this code in your work, please cite the original repository by CCIG-Champalimaud: https://github.com/CCIG-Champalimaud/waw-tace-radiomics/tree/master?tab=readme-ov-file
+Data set:  [WAW-TACE dataset](https://www.google.com/search?q=waw-tace&oq=WAW-tace&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGD0yBggCEEUYOzIGCAMQRRg8MgYIBBBFGD3SAQc4OTNqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8). 
+This dataset contains hepatocellular carcinoma patients eligible for transarterial chemoembolization therapy, and the task is predicting the progression of each patient.
 
-Shortly, to run the feature extraction pipeline, start by downloading and uncompressing the WAW-TACE dataset from [Zenodo](https://zenodo.org/records/12741586). Then, install `uv` if you haven't done so - this will make running everything that much easier!
+#Set Colab:
+1.new notebook> rename it>save it : it will create a "Colab Notebooks" folder in your google drive 
+2. Upload the Dataset to a dedicated folder in Google Drive (e.g., Colab Notebooks/WAW-TACE-radiomics).
 
-Then, run scripts as follows:
-1. `uv run scripts/get-dataset.py`
-2. `uv run scripts/set-params.py`
-3. `uv run scripts/extract-features.py`
-4. `uv run scripts/compile-dataset.py`
-
-And voilá! This should yield a set of radiomic features extracted on a per-lesion level in the `data` folder.
+# Clone the Repository by copying and pasting this line code into the code line in your notebook:
+!git clone https://github.com/MaryamHashim/waw-tace-radiomics.git
+#Change directory to the repository:
+%cd /content/waw-tace-radiomics
+# Install uv and Required Libraries
+!pip install uvicorn uv SimpleITK tqdm
+# Mount Google Drive:
+from google.colab import drive 
+drive.mount('/content/drive')
+# Give all permission
+# Set the Dataset Path: 
+DATASET_PATH = "/content/drive/My Drive/Colab Notebooks/WAW-TACE-radiomics"
+#Change to the dataset directory:
+%cd /content/drive/My\ Drive/Colab\ Notebooks/WAW-TACE-radiomics
+#Check that the patients data are there
+!ls /content/drive/My\ Drive/Colab\ Notebooks/WAW-TACE-radiomics
+#Should find  CT patients data and masks..etc
+# Get Dataset 
+!uv run scripts/get-dataset.py
+# Set Parameters:
+!uv run scripts/set-params.py
+# Extract Features:
+!uv run scripts/extract-features.py
+# Compile Dataset:
+!uv run scripts/compile-dataset.py
 
 ## Notebooks
-
 The notebooks in `notebooks` are illustrative and structured as follows:
-
 1. `1_image_preprocessing_and_radiomic_feature_extraction.ipynb` does all tasks related to dataset processing for the entire dataset and radiomic feature extraction for a single case
 2. `2_model_training.ipynb` does all the model training and tuning
+#
