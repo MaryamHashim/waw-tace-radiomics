@@ -4,8 +4,9 @@ This script has been forked from (https://github.com/CCIG-Champalimaud/waw-tace-
 
 ### Citation
 
-Code: If you use this code in your work, please cite the original repository by CCIG-Champalimaud: https://github.com/CCIG-Champalimaud/waw-tace-radiomics/tree/master?tab=readme-ov-file
-Data set:  [WAW-TACE dataset](https://www.google.com/search?q=waw-tace&oq=WAW-tace&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGD0yBggCEEUYOzIGCAMQRRg8MgYIBBBFGD3SAQc4OTNqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8). 
+#Code: If you use this code in your work, please cite the original repository by CCIG-Champalimaud: https://github.com/CCIG-Champalimaud/waw-tace-radiomics/tree/master?tab=readme-ov-file
+
+#Data set:  [WAW-TACE dataset](https://www.google.com/search?q=waw-tace&oq=WAW-tace&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGD0yBggCEEUYOzIGCAMQRRg8MgYIBBBFGD3SAQc4OTNqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8). 
 This dataset contains hepatocellular carcinoma patients eligible for transarterial chemoembolization therapy, and the task is predicting the progression of each patient.
 
 
